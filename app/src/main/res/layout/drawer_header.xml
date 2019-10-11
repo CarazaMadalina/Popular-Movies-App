@@ -7,5 +7,4 @@
     android:background="@color/primary_material_dark"
     android:orientation="vertical"
     tools:ignore="PrivateResource,Overdraw">
-
 </FrameLayout>
