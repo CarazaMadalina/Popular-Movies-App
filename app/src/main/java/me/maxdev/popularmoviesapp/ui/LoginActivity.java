@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                         Snackbar.make(loginButton, "Successfully Logged in!", Snackbar.LENGTH_LONG).show();
                         Intent activity = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(activity);
-                        finish();
+                         finish();
                     } else {
                         Snackbar.make(loginButton, "Failed to log in , please try again", Snackbar.LENGTH_LONG).show();
                     }
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initializingCreateAnAccount() {
         TextView createAnAccount = (TextView) findViewById(R.id.account);
-        createAnAccount.setText(fromHtml("<font color='#000000'>I don't have account yet. </font><font color='#3F51B5'>create one</font>"));
+        createAnAccount.setText(fromHtml("<font color='#000000'>I don't have account yet. </font><font color='#3023AE'>create one</font>"));
         createAnAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
