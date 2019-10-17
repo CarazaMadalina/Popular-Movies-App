@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.regex.Pattern;
+
 import me.maxdev.popularmoviesapp.R;
 import me.maxdev.popularmoviesapp.model.User;
 import me.maxdev.popularmoviesapp.sql.DatabaseHelper;
@@ -25,6 +27,17 @@ public class LoginActivity extends AppCompatActivity {
 
     //Declaration Button
     Button loginButton;
+
+    //Declaration pattern for password fields
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[0-9])" +
+                    "(?=.*[a-z])" +
+                    "(?=.*[A-Z])" +
+                    "(?=.*[@#$%^&+=])" +
+                    "(?=\\S+$)" +
+                    ".{6,}" +
+                    "$");
 
     //Declaration DatabaseHelper
     DatabaseHelper databaseHelper;
@@ -53,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         Snackbar.make(loginButton, "Successfully Logged in!", Snackbar.LENGTH_LONG).show();
                         Intent activity = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(activity);
-                         finish();
+                        finish();
                     } else {
                         Snackbar.make(loginButton, "Failed to log in , please try again", Snackbar.LENGTH_LONG).show();
                     }
@@ -69,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initializingCreateAnAccount() {
         TextView createAnAccount = (TextView) findViewById(R.id.account);
-        createAnAccount.setText(fromHtml("<font color='#000000'>I don't have account yet. </font><font color='#3023AE'>create one</font>"));
+        createAnAccount.setText(fromHtml("<font color='#000000'>I don't have an account yet. </font><b><font color='#00bfff'>Create one!</b></font>"));
         createAnAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
