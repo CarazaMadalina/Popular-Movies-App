@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#5fb0c9"
+    android:background="#00bfff"
     android:orientation="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true">
 
@@ -13,10 +13,11 @@
         android:layout_marginTop="22dp"
         android:layout_marginBottom="16dp"
         android:gravity="center_horizontal"
-        android:text="@string/account_login"
-        android:textColor="#fff"
+        android:text="@string/popular_movies"
+        android:textColor="#000"
         android:textSize="26sp"
-        android:textStyle="bold" />
+        android:fontFamily="serif"
+        android:textStyle="bold|italic" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -25,7 +26,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="70dp"
         android:layout_marginRight="30dp"
-        android:background="#fff"
+        android:background="#f9ece5"
         android:elevation="4dp"
         android:orientation="vertical"
         android:padding="20dp">
@@ -33,6 +34,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="#f9ece5"
             android:orientation="vertical"
             android:paddingTop="30dp">
 
@@ -48,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_action_email"
                     android:drawableTint="#000000"
-                    android:hint="@string/email"
+                    android:hint="@string/username"
                     android:inputType="textEmailAddress"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
@@ -83,10 +85,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:layout_margin="22dp"
-                android:background="#d67601"
+                android:background="#bea493"
                 android:text="@string/login"
                 android:textAllCaps="false"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="18sp" />
 
             <TextView
@@ -108,5 +110,5 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/user_profile_image_background"
         android:elevation="4dp"
-        android:src="@drawable/icon" />
+        android:src="@drawable/user2" />
 </RelativeLayout>

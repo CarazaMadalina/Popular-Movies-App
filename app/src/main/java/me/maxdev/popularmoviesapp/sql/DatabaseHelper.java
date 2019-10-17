@@ -105,4 +105,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //if email does not exist return false
         return false;
     }
+
 }

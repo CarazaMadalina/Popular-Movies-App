@@ -51,5 +51,6 @@
     <string name="username">Username</string>
     <string name="register">Register</string>
     <string name="back_to_login">Back to login</string>
-    <string name="account_login">Account Login</string>
+    <string name="popular_movies">Popular movies</string>
+    <string name="already_signed_in_login">Already Signed In? Login</string>
 </resources>
