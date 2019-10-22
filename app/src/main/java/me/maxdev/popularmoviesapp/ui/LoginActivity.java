@@ -6,9 +6,14 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.InputType;
 import android.text.Spanned;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,7 +23,7 @@ import me.maxdev.popularmoviesapp.R;
 import me.maxdev.popularmoviesapp.model.User;
 import me.maxdev.popularmoviesapp.sql.DatabaseHelper;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     //Declaration EditTexts
     EditText email, password;
 
@@ -27,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
 
     //Declaration Button
     Button loginButton;
+
+    //Declaration checkbox
+    CheckBox show_hide_password;
 
     //Declaration pattern for password fields
     private static final Pattern PASSWORD_PATTERN =
@@ -43,13 +51,28 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         databaseHelper = new DatabaseHelper(this);
         initializingCreateAnAccount();
         initializingViews();
+
+        show_hide_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+                if (isChecked) {
+                    show_hide_password.setText(R.string.show_pwd);
+                    password.setInputType(InputType.TYPE_CLASS_TEXT);
+                    password.setTransformationMethod(HideReturnsTransformationMethod
+                            .getInstance());
+                } else {
+                    show_hide_password.setText(R.string.show_pwd);
+                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
 
         //set click for login button
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                     String Password = password.getText().toString();
 
                     //Authenticate user
-                    User currentUser = databaseHelper.Authenticate(new User(null, null, Email, Password));
+                    User currentUser = databaseHelper.Authenticate(new User(null, null, Email, Password, null, null));
                     if (currentUser != null) {
                         Snackbar.make(loginButton, "Successfully Logged in!", Snackbar.LENGTH_LONG).show();
                         Intent activity = new Intent(LoginActivity.this, MainActivity.class);
@@ -98,8 +121,10 @@ public class LoginActivity extends AppCompatActivity {
         textInputLayoutEmail = (TextInputLayout) findViewById(R.id.textInputLayoutEmail);
         textInputLayoutPassword = (TextInputLayout) findViewById(R.id.textInputLayoutPassword);
         loginButton = (Button) findViewById(R.id.buttonLogin);
+        show_hide_password = findViewById(R.id.show_hide_password);
 
     }
+
 
     //This method is for handling fromHtml method deprecation
     @SuppressWarnings("deprecation")
@@ -145,4 +170,5 @@ public class LoginActivity extends AppCompatActivity {
         }
         return valid;
     }
+
 }

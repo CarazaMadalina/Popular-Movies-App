@@ -17,10 +17,12 @@ import me.maxdev.popularmoviesapp.sql.DatabaseHelper;
 
 public class RegisterActivity extends AppCompatActivity {
     //Declaration EditTexts
-    EditText editTextUserName, editTextEmail, editTextPassword;
+    EditText name, email, phone, password, confirm_password;
+
+    TextView textViewLogin;
 
     //Declaration TextInputLayout
-    TextInputLayout textInputLayoutUserName, textInputLayoutEmail, textInputLayoutPassword;
+    TextInputLayout nameError, emailError, phoneError, passError, passConfirmError;
 
     //Declaration Button
     Button registerButton;
@@ -31,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_register);
         databaseHelper = new DatabaseHelper(this);
         initTextViewLogin();
@@ -39,12 +42,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validate()) {
-                    String UserName = editTextUserName.getText().toString();
-                    String Email = editTextEmail.getText().toString();
-                    String Password = editTextPassword.getText().toString();
+                    String UserName = name.getText().toString();
+                    String Email = email.getText().toString();
+                    String Phone = phone.getText().toString();
+                    String Password = password.getText().toString();
+                    String Confirm_Password = confirm_password.getText().toString();
 
                     if (!databaseHelper.isEmailExists(Email)) {
-                        databaseHelper.addUser(new User(null, UserName, Email, Password));
+                        databaseHelper.addUser(new User(null, UserName, Email, Phone, Password, Confirm_Password));
                         Snackbar.make(registerButton, "User created successfully! Please Login ", Snackbar.LENGTH_LONG).show();
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -62,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     //this method used to set Login TextView click event
     private void initTextViewLogin() {
-        TextView textViewLogin = (TextView) findViewById(R.id.textViewLogin);
+        TextView textViewLogin = findViewById(R.id.textViewLogin);
         textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,57 +78,87 @@ public class RegisterActivity extends AppCompatActivity {
 
     //this method is used to connect XML views to its Objects
     private void initializingViews() {
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        editTextUserName = (EditText) findViewById(R.id.editTextUserName);
-        textInputLayoutEmail = (TextInputLayout) findViewById(R.id.textInputLayoutEmail);
-        textInputLayoutPassword = (TextInputLayout) findViewById(R.id.textInputLayoutPassword);
-        textInputLayoutUserName = (TextInputLayout) findViewById(R.id.textInputLayoutUserName);
-        registerButton = (Button) findViewById(R.id.buttonRegister);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        phone = findViewById(R.id.phone);
+        confirm_password = findViewById(R.id.confirm_password);
+        name = findViewById(R.id.name);
+        emailError = findViewById(R.id.emailError);
+        passError = findViewById(R.id.passError);
+        nameError = findViewById(R.id.nameError);
+        phoneError = findViewById(R.id.phoneError);
+        passConfirmError = findViewById(R.id.passConfirmError);
+        registerButton = findViewById(R.id.buttonRegister);
+        textViewLogin = findViewById(R.id.textViewLogin);
     }
 
     public boolean validate() {
         boolean valid = false;
 
         //Get values from EditText fields
-        String username = editTextUserName.getText().toString();
-        String email = editTextEmail.getText().toString();
-        String password = editTextPassword.getText().toString();
+        String username = name.getText().toString().trim();
+        String email_address = email.getText().toString().trim();
+        String phone_number = phone.getText().toString().trim();
+        String password_user = password.getText().toString().trim();
+        String confirm_pass = confirm_password.getText().toString().trim();
 
         //Handling validation for UserName field
         if (username.isEmpty()) {
             valid = false;
-            textInputLayoutUserName.setError("Please enter valid username!");
+            nameError.setError("Please enter valid username!");
         } else {
             if (username.length() > 5) {
                 valid = true;
-                textInputLayoutUserName.setError(null);
+                nameError.setError(null);
             } else {
                 valid = false;
-                textInputLayoutUserName.setError("Username is to short!");
+                nameError.setError("Username is to short!");
             }
         }
 
         //Handling validation for Email field
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email_address).matches()) {
             valid = false;
-            textInputLayoutEmail.setError("Please enter valid email!");
+            emailError.setError("Please enter valid email!");
         } else {
             valid = true;
-            textInputLayoutEmail.setError(null);
+            emailError.setError(null);
         }
 
         //Handling validation for Password field
-        if (password.isEmpty()) {
+        if (password_user.isEmpty()) {
             valid = false;
-            textInputLayoutPassword.setError("Please enter valid password!");
+            passError.setError("Please enter valid password!");
         } else {
             if (password.length() > 5) {
                 valid = true;
-                textInputLayoutPassword.setError(null);
+                passError.setError(null);
             } else {
                 valid = false;
-                textInputLayoutPassword.setError("Password is to short!");
+                passError.setError("Password is to short!");
+            }
+
+            //Handling validation for Password field
+            if (confirm_pass.isEmpty()) {
+                valid = false;
+                passConfirmError.setError("Please enter a valid password!");
+            } else {
+                if (confirm_pass.length() > 5) {
+                    valid = true;
+                    passError.setError(null);
+                } else {
+                    valid = false;
+                    passError.setError("Password is too short!");
+                }
+
+                //Handling validation for Password field
+                if (phone_number.isEmpty()) {
+                    valid = false;
+                    phoneError.setError("Please enter a valid number!");
+                } else {
+                    valid = true;
+                    phoneError.setError(null);
+                }
             }
         }
         return valid;
